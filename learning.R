@@ -4,8 +4,13 @@ classify <- function(x, weights, transfer_function) {
   return(transfer_function(x %*% weights))
 }
 
-perceptron <- function(obs, label, transfer_function) {
+perceptron <- function(obs, label, transfer_function, add_bias = TRUE) {
   k <- 0 # count updates
+  
+  if (add_bias) {
+    obs <- cbind(obs, rep(1, nrow(obs)))   
+  }
+  
   w <- rep(0, ncol(obs)) # init weights
   n <- nrow(obs)
   
@@ -13,15 +18,17 @@ perceptron <- function(obs, label, transfer_function) {
   while (misclassfied) {
     misclassfied <- FALSE
     for (i in 1:n) {
-      a <- classify(obs[i,], w, transfer_function)
-      if (label[i, ] != a) {
-        w <- w + (label[i, ] - a) * obs[i,]
+      obsi <- obs[i,]
+      labeli <- label[i, ]
+      a <- classify(obsi, w, transfer_function)
+      if (labeli != a) {
+        w <- w + (labeli - a) * obsi
         misclassfied <- TRUE
         k <- k + 1
       }
     }
     
-    if (k > 250)
+    if (k > 1000)
       stop("Did not converge.")
   }
   
