@@ -41,5 +41,3 @@ expected <- list(w = matrix( c(1, -1, 1), nrow = 3, ncol = 1), updates = 5)
 test_that("Test perceptron P 4.1 c",{
   expect_equal( w$w, expected$w)
 })
-
-# P 4.3
