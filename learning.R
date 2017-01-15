@@ -22,7 +22,6 @@ perceptron <- function(obs, label, transfer_function, add_bias = TRUE) {
       labeli <- label[i, ]
       a <- classify(obsi, w, transfer_function)
       if (labeli != a) {
-        print(obsi)
         w <- w + (labeli - a) * obsi
         misclassfied <- TRUE
         k <- k + 1
